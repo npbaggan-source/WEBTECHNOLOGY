@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShopEasy - Checkout</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Internal CSS -->
+    <style>
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input, select {
+            padding: 5px;
+            margin: 5px 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Checkout</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="checkout.html">Checkout</a>
+    </nav>
+</header>
+
+<section>
+    <form>
+        <h2 style="color: darkblue;">Billing Details</h2> <!-- Inline CSS -->
+
+        Name:
+        <input type="text" required>
+
+        Email:
+        <input type="email" required>
+
+        Payment Method:
+        <select>
+            <option>Credit Card</option>
+            <option>Debit Card</option>
+            <option>UPI</option>
+        </select>
+
+        <br>
+        <progress value="60" max="100"></progress>
+        <br><br>
+
+        <input type="submit" value="Place Order">
+    </form>
+</section>
+
+<footer>
+    <p>Thank you for shopping with us!</p>
+</footer>
+
+</body>
+</html>
