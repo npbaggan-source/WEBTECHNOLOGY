@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProFlow · Registration & Login</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
+
+/* Background */
+
+body{
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:30px;
+}
+
+/* Main dashboard */
+
+.dashboard{
+width:100%;
+max-width:1300px;
+background:rgba(255,255,255,0.95);
+border-radius:25px;
+padding:30px;
+box-shadow:0 30px 60px rgba(0,0,0,0.35);
+}
+
+/* Layout */
+
+.grid-3col{
+display:grid;
+grid-template-columns:1.6fr 1fr;
+gap:25px;
+}
+
+/* Left panel */
+
+.left-panel{
+background:white;
+border-radius:20px;
+padding:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+transition:.3s;
+}
+
+.left-panel:hover{
+transform:translateY(-3px);
+}
+
+/* Tabs */
+
+.tab-bar{
+display:flex;
+gap:10px;
+border-bottom:2px solid #eee;
+margin-bottom:25px;
+padding-bottom:10px;
+}
+
+.tab-btn{
+border:none;
+background:#e9eef4;
+padding:10px 22px;
+border-radius:30px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
+
+.tab-btn:hover{
+background:#dbe8f6;
+}
+
+.tab-btn.active{
+background:#1d3f5c;
+color:white;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Forms */
+
+.form-section{
+display:none;
+}
+
+.form-section.active-section{
+display:block;
+}
+
+.form-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.full-width{
+grid-column:span 2;
+}
+
+.field{
+margin-bottom:15px;
+}
+
+.field label{
+font-size:13px;
+font-weight:600;
+color:#2c3e50;
+display:block;
+margin-bottom:5px;
+}
+
+/* Inputs */
+
+input,select{
+width:100%;
+padding:10px;
+border-radius:12px;
+border:1px solid #d5dde7;
+background:#f8fbff;
+transition:.25s;
+}
+
+input:focus,select:focus{
+outline:none;
+border-color:#4a90e2;
+background:white;
+box-shadow:0 0 8px rgba(74,144,226,0.25);
+}
+
+/* Options */
+
+.option-group{
+background:#f6f9fd;
+border-radius:15px;
+padding:15px;
+border:1px solid #e1e8f0;
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+}
+
+/* Interests */
+
+.interests-grid{
+background:#f6f9fd;
+border-radius:15px;
+padding:15px;
+border:1px solid #e1e8f0;
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+}
+
+/* Button */
+
+.btn-primary{
+background:linear-gradient(135deg,#3a7bd5,#00d2ff);
+border:none;
+color:white;
+font-weight:600;
+font-size:16px;
+padding:12px;
+border-radius:30px;
+width:100%;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn-primary:hover{
+transform:scale(1.03);
+box-shadow:0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* Links */
+
+.action-links{
+margin-top:15px;
+font-size:14px;
+}
+
+.action-links a{
+color:#1d6fa5;
+text-decoration:none;
+}
+
+.action-links a:hover{
+text-decoration:underline;
+}
+
+/* Saved panel */
+
+.saved-panel{
+background:white;
+border-radius:20px;
+padding:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+transition:.3s;
+}
+
+.saved-panel:hover{
+transform:translateY(-3px);
+}
+
+.saved-header{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+}
+
+.saved-header i{
+font-size:22px;
+color:#3a7bd5;
+background:#eaf3ff;
+padding:10px;
+border-radius:12px;
+}
+
+.data-message{
+background:#f4f9ff;
+border:1px dashed #9cc1e5;
+padding:25px;
+border-radius:18px;
+text-align:center;
+color:#547a9e;
+}
+
+.data-actions{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.data-actions button{
+flex:1;
+padding:10px;
+border-radius:30px;
+border:1px solid #c9d8e6;
+background:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.data-actions button:hover{
+background:#eaf3ff;
+}
+
+.birth-group{
+display:flex;
+gap:5px;
+}
+
+.birth-group input{
+text-align:center;
+}
+
+@media(max-width:900px){
+
+.grid-3col{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="grid-3col">
+
+<!-- LEFT PANEL -->
+
+<div class="left-panel">
+
+<div class="tab-bar">
+<button class="tab-btn active" id="tabRegister"><i class="fas fa-user-plus"></i> Register</button>
+<button class="tab-btn" id="tabLogin"><i class="fas fa-key"></i> Login</button>
+</div>
+
+<!-- REGISTER -->
+
+<div id="registerSection" class="form-section active-section">
+
+<div class="form-row">
+
+<div class="field full-width">
+<label>Full Name *</label>
+<input type="text" placeholder="Enter your full name">
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="field">
+<label>Email *</label>
+<input type="email" placeholder="Enter email">
+</div>
+
+<div class="field">
+<label>Password *</label>
+<input type="password" placeholder="Password">
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="field">
+<label>Confirm Password *</label>
+<input type="password" placeholder="Confirm Password">
+</div>
+
+<div class="field">
+<label>Date of Birth *</label>
+
+<div class="birth-group">
+<input type="text" placeholder="dd">
+<input type="text" placeholder="mm">
+<input type="text" placeholder="yyyy">
+</div>
+
+</div>
+
+</div>
+
+<div class="field">
+<label>Age Group</label>
+
+<div class="option-group">
+
+<label><input type="radio" name="age">18-25</label>
+<label><input type="radio" name="age">26-35</label>
+<label><input type="radio" name="age">36-45</label>
+<label><input type="radio" name="age">46-60</label>
+<label><input type="radio" name="age">60+</label>
+
+</div>
+</div>
+
+<div class="field">
+<label>Gender</label>
+
+<div class="option-group">
+
+<label><input type="radio" name="gender">Male</label>
+<label><input type="radio" name="gender">Female</label>
+<label><input type="radio" name="gender">Other</label>
+
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="field">
+<label>City</label>
+<input type="text" placeholder="City">
+</div>
+
+<div class="field">
+<label>State</label>
+
+<select>
+<option>Select</option>
+<option>California</option>
+<option>Texas</option>
+<option>Florida</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="field">
+<label>Skills / Interests</label>
+
+<div class="interests-grid">
+
+<label><input type="checkbox">Coding</label>
+<label><input type="checkbox">Sports</label>
+<label><input type="checkbox">Travel</label>
+<label><input type="checkbox">Music</label>
+<label><input type="checkbox">Art</label>
+
+</div>
+
+</div>
+
+<button class="btn-primary" id="fakeRegisterBtn">
+<i class="fas fa-user-plus"></i> Register Now
+</button>
+
+<div class="action-links">
+Already have an account?
+<a href="#" id="switchToLoginLink">Login here</a>
+</div>
+
+</div>
+
+<!-- LOGIN -->
+
+<div id="loginSection" class="form-section">
+
+<div class="field">
+<label>Email</label>
+<input type="email">
+</div>
+
+<div class="field">
+<label>Password</label>
+<input type="password">
+</div>
+
+<button class="btn-primary" id="fakeLoginBtn">
+<i class="fas fa-sign-in-alt"></i> Login
+</button>
+
+<div class="action-links">
+Don't have account?
+<a href="#" id="switchToRegisterLink">Register here</a>
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+
+<div class="saved-panel">
+
+<div class="saved-header">
+<i class="fas fa-database"></i>
+<h3>Previously Saved Data</h3>
+</div>
+
+<div class="data-message" id="savedDataMsg">
+No saved data yet. Register first!
+</div>
+
+<div class="data-actions">
+<button id="usePrevDataBtn"><i class="fas fa-history"></i> Use Previous Data</button>
+<button id="copyAllDataBtn"><i class="fas fa-copy"></i> Copy All Data</button>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- empty section -->
+<div id="output">
+
+</div>
+
+<script>
+
+/* same logic */
+
+const tabRegister=document.getElementById("tabRegister");
+const tabLogin=document.getElementById("tabLogin");
+
+const registerSection=document.getElementById("registerSection");
+const loginSection=document.getElementById("loginSection");
+
+tabRegister.onclick=()=>{
+
+tabRegister.classList.add("active");
+tabLogin.classList.remove("active");
+
+registerSection.classList.add("active-section");
+loginSection.classList.remove("active-section");
+
+};
+
+tabLogin.onclick=()=>{
+
+tabLogin.classList.add("active");
+tabRegister.classList.remove("active");
+
+loginSection.classList.add("active-section");
+registerSection.classList.remove("active-section");
+
+};
+
+document.getElementById("fakeRegisterBtn").onclick=()=>{
+
+document.getElementById("savedDataMsg").innerHTML="Register demo — no data saved permanently.";
+
+};
+
+document.getElementById("fakeLoginBtn").onclick=()=>{
+
+document.getElementById("savedDataMsg").innerHTML="Login demo (no validation)";
+
+};
+
+document.getElementById("usePrevDataBtn").onclick=()=>{
+
+document.getElementById("savedDataMsg").innerHTML="Demo: would fill form (no actual storage)";
+
+};
+
+document.getElementById("copyAllDataBtn").onclick=()=>{
+
+document.getElementById("savedDataMsg").innerHTML="Demo: copied (simulated)";
+
+};
+let output=document.getElementById("output");
+
+output.innerHTML=
+"<b>Name:</b> "+name+"<br>"+
+"<b>Email:</b> "+email+"<br>"+
+"<b>Password:</b> "+password+"<br>"+
+"<b>Age:</b> "+age+"<br>"+
+"<b>DOB:</b> "+dob+"<br>"+
+"<b>Gender:</b> "+gender+"<br>"+
+"<b>Skills:</b> "+skills+"<br>"+
+"<b>Country:</b> "+country+"<br>"+
+"<b>Address:</b> "+address+"<br>"+
+"<b>File:</b> "+filename;
+
+}
+
+</script>
+
+</body>
+</html>
