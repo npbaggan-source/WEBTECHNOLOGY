@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+$lastVisitMsg = "Welcome to ShopEasy for the first time!";
+if (isset($_COOKIE['last_visit'])) {
+    $lastVisitMsg = "Your last visit was on: " . $_COOKIE['last_visit'];
+}
+setcookie('last_visit', date("Y-m-d H:i:s"), time() + (86400 * 30), "/");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,16 +19,17 @@
 <header>
     <h1>🛒 ShopEasy Online Store</h1>
     <nav>
-        <a href="index.html">Home</a> |
-        <a href="products.html">Products</a> |
-        <a href="checkout.html">Checkout</a>
+        <a href="index.php">Home</a> |
+        <a href="products.php">Products</a> |
+        <a href="checkout.php">Checkout</a>
     </nav>
     <hr>
 </header>
 
 <section>
-    <h2>Welcome to ShopEasy</h2>
+    <h2>Welcome to ShopEasy<?php if(isset($_SESSION['user_name'])) echo ", " . htmlspecialchars($_SESSION['user_name']); ?>!</h2>
     <p>Your one-stop online shopping destination.</p>
+    <p style="font-weight: bold; color: #007bff;"><?php echo $lastVisitMsg; ?></p>
 
     <figure>
         <img src="https://via.placeholder.com/600x200" alt="Store Banner">
