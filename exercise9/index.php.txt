@@ -1,0 +1,195 @@
+<?php
+$result = "";
+$expression = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $expression = $_POST['expression'];
+
+    // Replace constants
+    $expression = str_replace('pi', pi(), $expression);
+    $expression = str_replace('e', exp(1), $expression);
+
+    // Replace functions
+    $expression = str_replace('sin(', 'sin(deg2rad(', $expression);
+    $expression = str_replace('cos(', 'cos(deg2rad(', $expression);
+    $expression = str_replace('tan(', 'tan(deg2rad(', $expression);
+    $expression = str_replace('log', 'log10', $expression);
+    $expression = str_replace('sqrt', 'sqrt', $expression);
+    $expression = str_replace('^', '**', $expression);
+
+    // Validate input (important security layer)
+    if (!preg_match('/^[0-9+\-*/().^sincotaqlgrpie ]+$/', $expression)) {
+        $result = "Invalid Input";
+    } else {
+        try {
+            $result = eval("return $expression;");
+        } catch (Throwable $e) {
+            $result = "Error";
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scientific Calculator</title>
+
+<style>
+body {
+    background: #0f172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.calculator {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    width: 340px;
+}
+
+#display {
+    width: 100%;
+    height: 60px;
+    font-size: 22px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #020617;
+    color: #00ffcc;
+    text-align: right;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background: #334155;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #475569;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button[type="submit"] {
+    background: #22c55e;
+}
+
+button[type="submit"]:hover {
+    background: #16a34a;
+}
+
+.clear {
+    grid-column: span 2;
+    background: #ef4444;
+}
+
+.clear:hover {
+    background: #dc2626;
+}
+
+.back {
+    background: #f59e0b;
+}
+
+.back:hover {
+    background: #d97706;
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+<form method="POST">
+    <input type="text" name="expression" id="display" 
+           value="<?php echo htmlspecialchars($expression ?: $result); ?>">
+
+    <div class="buttons">
+
+        <!-- Scientific -->
+        <button type="button" onclick="append('sin(')">sin</button>
+        <button type="button" onclick="append('cos(')">cos</button>
+        <button type="button" onclick="append('tan(')">tan</button>
+        <button type="button" onclick="append('log(')">log</button>
+
+        <button type="button" onclick="append('sqrt(')">√</button>
+        <button type="button" onclick="append('^')">^</button>
+        <button type="button" onclick="append('pi')">π</button>
+        <button type="button" onclick="append('e')">e</button>
+
+        <!-- Numbers -->
+        <button type="button" onclick="append('7')">7</button>
+        <button type="button" onclick="append('8')">8</button>
+        <button type="button" onclick="append('9')">9</button>
+        <button type="button" onclick="append('/')">÷</button>
+
+        <button type="button" onclick="append('4')">4</button>
+        <button type="button" onclick="append('5')">5</button>
+        <button type="button" onclick="append('6')">6</button>
+        <button type="button" onclick="append('*')">×</button>
+
+        <button type="button" onclick="append('1')">1</button>
+        <button type="button" onclick="append('2')">2</button>
+        <button type="button" onclick="append('3')">3</button>
+        <button type="button" onclick="append('-')">−</button>
+
+        <button type="button" onclick="append('0')">0</button>
+        <button type="button" onclick="append('.')">.</button>
+        <button type="submit">=</button>
+        <button type="button" onclick="append('+')">+</button>
+
+        <!-- Controls -->
+        <button type="button" class="back" onclick="backspace()">⌫</button>
+        <button type="button" class="clear" onclick="clearDisplay()">C</button>
+
+    </div>
+</form>
+</div>
+
+<script>
+function append(value) {
+    document.getElementById("display").value += value;
+}
+
+function clearDisplay() {
+    document.getElementById("display").value = "";
+}
+
+function backspace() {
+    let display = document.getElementById("display");
+    display.value = display.value.slice(0, -1);
+}
+
+// Optional: allow Enter key to submit
+document.getElementById("display").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        this.form.submit();
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment 8: Introduction to PHP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<style>
+:root {
+    --bg-primary: #020617;
+    --bg-secondary: #020617;
+    --glass: rgba(15, 23, 42, 0.6);
+    --neon-blue: #00f0ff;
+    --neon-purple: #8b5cf6;
+    --neon-pink: #ec4899;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+/* Background */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at 20% 30%, #0f172a, #020617);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Animated Glow Background */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, #00f0ff, #8b5cf6, #ec4899, #00f0ff);
+    animation: rotate 20s linear infinite;
+    opacity: 0.08;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+
+/* Navbar */
+.navbar {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+}
+
+.nav-brand {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Container */
+.container {
+    max-width: 950px;
+    margin: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Cards */
+.card, .header-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    transition: 0.4s ease;
+}
+
+.card:hover, .header-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 25px var(--neon-blue);
+}
+
+/* Header */
+.header-card h1 {
+    font-size: 2.8rem;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-badge {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+/* Section Titles */
+.card h2 {
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* Steps */
+.step {
+    background: rgba(30, 41, 59, 0.6);
+    border-left: 3px solid var(--neon-blue);
+    padding: 1.2rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    transition: 0.3s;
+}
+
+.step:hover {
+    border-left: 3px solid var(--neon-pink);
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+
+/* Step number */
+.step-number {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Images */
+.img-container {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+    border: 1px solid var(--border);
+}
+
+.img-container img {
+    width: 100%;
+    transition: 0.4s;
+}
+
+.img-container:hover img {
+    transform: scale(1.07);
+}
+
+/* Conclusion */
+.conclusion-box {
+    border-left: 4px solid var(--neon-purple);
+    background: rgba(139, 92, 246, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.conclusion-box:hover {
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .header-card h1 {
+        font-size: 2rem;
+    }
+}
+</style>
+
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🚀 PHP Lab</div>
+    </nav>
+    <div class="container">
+
+        <header class="header-card">
+            <div class="header-badge">Experiment 8</div>
+            <h1>Introduction to PHP</h1>
+            <p>Learn the fundamentals of PHP with XAMPP installation and basic concepts</p>
+        </header>
+
+        <section class="card objective-card">
+            <h2><i class="fas fa-bullseye"></i> Objective</h2>
+            <p>To install PHP using XAMPP and understand basic PHP concepts such as variables, output functions and
+                executing through a local server.</p>
+        </section>
+
+        <section class="card">
+            <h2><i class="fas fa-tasks"></i> Procedure</h2>
+            <div class="steps-container">
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number"><i class="fas fa-download"></i></div>
+                    <div class="step-text">Install XAMPP on your system.</div>
+                </div>
+                <div class="img-container">
+                    <img src="Screenshot 2026-04-05 144409.jpg" alt="Install XAMPP">
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number"><i class="fas fa-server"></i></div>
+                    <div class="step-text">Start Apache and MySQL servers.</div>
+                </div>
+                <div class="img-container">
+                    <img src="Screenshot 2026-04-05 151041.jpg" alt="Start XAMPP">
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number"><i class="fas fa-file-code"></i></div>
+                    <div class="step-text">Create a PHP file in the htdocs folder.</div>
+                </div>
+                <div class="img-container">
+                    <img src="Screenshot 2026-04-05 151017.jpg" alt="Create PHP file">
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number"><i class="fas fa-code"></i></div>
+                    <div class="step-text">Write PHP code in the file.</div>
+                </div>
+                <div class="img-container">
+                    <img src="Screenshot 2026-04-05 151000.jpg" alt="PHP code">
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number"><i class="fas fa-globe"></i></div>
+                    <div class="step-text">Open the file in a web browser.</div>
+                </div>
+                <div class="img-container">
+                    <img src="helloworldimage.jpg" alt="PHP output">
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="card conclusion-card">
+            <h2><i class="fas fa-check-circle"></i> Conclusion</h2>
+            <div class="conclusion-box">
+                <p>I have successfully installed XAMPP and executed a PHP file in a web browser.</p>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>
